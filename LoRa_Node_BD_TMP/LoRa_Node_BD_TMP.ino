@@ -22,11 +22,18 @@ double tmp;
 // for Lora
 #include <LoRaNow.h>
 
+//vspi for lora radio module
+#define MISO 19
+#define MOSI 23
+#define SCK 18
+#define SS 5
+
 //hspi for lora radio module
-#define MISO 12
-#define MOSI 13
-#define SCK 14
-#define SS 15
+//#define MISO 12
+//#define MOSI 13
+//#define SCK 14
+//#define SS 15
+
 #define DIO0 4
 
 #define MSG_DELAY 2000 //should sleep,use delay for tem use
@@ -34,7 +41,7 @@ double tmp;
 void setup() {
   Serial.begin(115200);
   Serial.println("LoRa Node With Beidou and Temperature");
-  SerialBD.begin(9600,SERIAL_8N1,5,18);//5 rx,18 tx
+  SerialBD.begin(9600,SERIAL_8N1,16,17);//16 rx,17 tx
   pinMode(tmpADPin,INPUT);
 
    LoRaNow.setFrequencyCN(); // Select the frequency 486.5 MHz - Used in China
