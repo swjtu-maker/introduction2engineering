@@ -29,7 +29,7 @@ double tmp;
 #define SS 15
 #define DIO0 4
 
-#define MSG_DELAY 5000 //should sleep,use delay for tem use
+#define MSG_DELAY 2000 //should sleep,use delay for tem use
 
 void setup() {
   Serial.begin(115200);
@@ -69,7 +69,6 @@ void onMessage(uint8_t *buffer, size_t size)
   Serial.print("Receive Message: ");
   Serial.write(buffer, size);
   Serial.println();
-  Serial.println();
 }
 
 void onSleep()
@@ -79,52 +78,60 @@ void onSleep()
   //tmp = readTMP();
   
   Serial.println("Lora Send Message");
-  
-  char timestring[16];
-  sprintf(timestring,"%d-%d-%d-%d:%d:%d",fix.dateTime.year,fix.dateTime.month,fix.dateTime.date,fix.dateTime.hours,fix.dateTime.minutes,fix.dateTime.seconds);
-  LoRaNow.print(timestring);//datetime
-  LoRaNow.print(",");
-  LoRaNow.print(fix.status);//datetime
-  LoRaNow.print(",");
-  LoRaNow.print(fix.longitude());//datetime
-  LoRaNow.print(",");
-  LoRaNow.print(fix.latitude());//datetime
-  LoRaNow.print(",");
-  LoRaNow.print(fix.altitude());//datetime
-  LoRaNow.print(",");
-  LoRaNow.print(fix.speed_kph());//datetime
-  LoRaNow.print(",");
-  LoRaNow.print(fix.satellites);//datetime
-  LoRaNow.print(",");
-  LoRaNow.print(tmp);//temp
-  LoRaNow.print("|");
+  delay(4000); // "kind of a sleep"
 
-  LoRaNow.send();
-  delay(MSG_DELAY); // "kind of a sleep"
+  //LoRaNow.print(message);
+  //LoRaNow.print("message");
+
+    LoRaNow.print(fix.status);  
+    LoRaNow.print(",");
+    LoRaNow.print(fix.longitude());
+    LoRaNow.print(",");
+    LoRaNow.print(fix.latitude());    
+    LoRaNow.print(",");
+    LoRaNow.print(fix.altitude());
+    LoRaNow.print(",");
+    LoRaNow.print(fix.speed_kph());
+    LoRaNow.print(",");
+    LoRaNow.print(fix.satellites);
+    LoRaNow.print(","); 
+    LoRaNow.print(fix.dateTime.year);
+    LoRaNow.print("-"); 
+    LoRaNow.print(fix.dateTime.month);
+    LoRaNow.print("-"); 
+    LoRaNow.print(fix.dateTime.date);
+    LoRaNow.print("~"); 
+    LoRaNow.print(fix.dateTime.hours);
+    LoRaNow.print(":"); 
+    LoRaNow.print(fix.dateTime.minutes);
+    LoRaNow.print(":"); 
+    LoRaNow.print(fix.dateTime.seconds);
+    LoRaNow.print(",");
+    LoRaNow.print(tmp);
+    LoRaNow.send();
 }
 
-double readTMP(){
+double readTMP()
+{
   int RawValue = analogRead(tmpADPin);
   //Serial.println(RawValue);
   double Voltage = (RawValue / 2048.0) * 3300; // 5000 to get millivots.
   double tempC = Voltage * 0.1;
-  Serial.println(tempC);
+  //Serial.println(tempC);
   return tempC;
-  }
+}
 
 void readBD(){
   if (gps.available( SerialBD )) {
     fix = gps.read();
-
     Serial.println("--GPS info--");
-    //0 STATUS_NONE, 1 STATUS_EST, 2 STATUS_TIME_ONLY, 3 STATUS_STD or 4 STATUS_DGPS  
+//    //0 STATUS_NONE, 1 STATUS_EST, 2 STATUS_TIME_ONLY, 3 STATUS_STD or 4 STATUS_DGPS  
     Serial.print("status:");
     Serial.println(fix.status);  
     Serial.print("longitude:");
     Serial.println(fix.longitude());
     Serial.print("latitude:");
-    Serial.println(fix.latitude());
-    
+    Serial.println(fix.latitude());    
     Serial.print("altitude:");
     Serial.println(fix.altitude());
     Serial.print("speed:");
@@ -145,4 +152,4 @@ void readBD(){
     Serial.println(fix.dateTime.seconds);
     
   }
-  }
+ }
