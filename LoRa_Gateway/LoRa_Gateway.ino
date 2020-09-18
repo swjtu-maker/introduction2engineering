@@ -26,7 +26,7 @@
 
 #define DIO0 4
 
-const char *ssid = "ty360";
+const char *ssid = "ty";
 const char *password = "fishfish";
 
 WebServer server(80);
