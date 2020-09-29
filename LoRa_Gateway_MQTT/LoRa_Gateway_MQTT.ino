@@ -2,11 +2,11 @@
   LoRaNow Simple Gateway with ESP32 setPins
 
   This code creates a webServer show the Message and use mqtt publish the data.
-  
+
   created 27 04 2019
   by Luiz H. Cassettari
   modified 2020.09.19
-  by bloomlj 
+  by bloomlj
 */
 
 #include <LoRaNow.h>
@@ -29,8 +29,8 @@
 
 #define DIO0 4
 
-const char *ssid = "TY666";
-const char *password = "fishfish";
+const char *ssid = "403B";
+const char *password = "swjtumaker144";
 const char* mqtt_server = "broker.hivemq.com";
 
 WebServer server(80);
@@ -146,7 +146,7 @@ void setup(void)
   //mqtt
   mqttclient.setServer(mqtt_server, 1883);
   mqttclient.setCallback(callback);
-  
+
 }
 
 void loop(void)
@@ -169,12 +169,13 @@ void onMessage(uint8_t *buffer, size_t size)
   Serial.write(buffer, size);
   Serial.println();
   Serial.println();
-
-   snprintf (msg, MSG_BUFFER_SIZE, "lora_MSG_COUNT #%ld", count);
+  
+   //此处通过mqtt发送信息。
+   snprintf (msg, MSG_BUFFER_SIZE, "#%ld#%s", count,buffer);
    Serial.print("Publish message: ");
    Serial.println(msg);
    mqttclient.publish("C2TLOutTopic", msg);
-      
+
   if (string.available() > 512)
   {
     while (string.available())
