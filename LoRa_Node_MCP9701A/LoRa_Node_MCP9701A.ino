@@ -73,6 +73,7 @@ void onMessage(uint8_t *buffer, size_t size)
 void onSleep()
 {
   Serial.println("Sleep");
+  Serial.println(tmp);
   delay(5000); // "kind of a sleep"
   Serial.println("Send Message");
   LoRaNow.print("LoRaNow Node Message ");
