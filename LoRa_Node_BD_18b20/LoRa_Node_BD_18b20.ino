@@ -32,16 +32,16 @@ float tmp;
 #include <LoRaNow.h>
 
 //vspi for lora radio module
-//#define MISO 19
-//#define MOSI 23
-//#define SCK 18
-//#define SS 5
+#define MISO 19
+#define MOSI 23
+#define SCK 18
+#define SS 5
 
 //hspi for lora radio module
-#define MISO 12
-#define MOSI 13
-#define SCK 14
-#define SS 15
+//#define MISO 12
+//#define MOSI 13
+//#define SCK 14
+//#define SS 15
 
 #define DIO0 4
 

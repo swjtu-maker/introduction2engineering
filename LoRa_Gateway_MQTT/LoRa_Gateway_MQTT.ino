@@ -16,21 +16,21 @@
 #include <PubSubClient.h>
 
 //vspi
-//#define SCK 18
-//#define MISO 19
-//#define MOSI 23
-//#define SS 5
+#define SCK 18
+#define MISO 19
+#define MOSI 23
+#define SS 5
 
 //hspi
-#define SCK 14
-#define MISO 12
-#define MOSI 13
-#define SS 15
+//#define SCK 14
+//#define MISO 12
+//#define MOSI 13
+//#define SS 15
 
 #define DIO0 4
 
-const char *ssid = "403B";
-const char *password = "swjtumaker144";
+const char *ssid = "Wangguan1";
+const char *password = "12345678.";
 const char* mqtt_server = "broker.hivemq.com";
 
 WebServer server(80);

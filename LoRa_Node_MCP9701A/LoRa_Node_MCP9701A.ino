@@ -1,19 +1,13 @@
 /*
-  LoRaNow Simple Node
-
-  This code sends message and listen expecting some valid message from the gateway
-
-  created 01 04 2019
-  by Luiz H. Cassettari
+  LoRa Node With and MCP9701A
+  MCU：ESP32-S
+  Lora: ai-tinker RA-02 sx1278 470 
+  Tempture Sensor:MCP9701A
+  created 2020.8.25
+  by Bloomlj
 */
 
 #include <LoRaNow.h>
-
-//hspi
-//#define MISO 12
-//#define MOSI 13
-//#define SCK 14
-//#define SS 15
 
 //vspi for lora radio module
 #define MISO 19
@@ -22,9 +16,15 @@
 #define SS 5
 
 #define DIO0 4
+
+//for TMP Sensor,MCP9701A
+#define tmpADPin 35
+double tmp;
+
 void setup() {
   Serial.begin(115200);
   Serial.println("LoRaNow Simple Node");
+  pinMode(tmpADPin,INPUT);
 
    LoRaNow.setFrequencyCN(); // Select the frequency 486.5 MHz - Used in China
   // LoRaNow.setFrequencyEU(); // Select the frequency 868.3 MHz - Used in Europe
@@ -48,7 +48,18 @@ void setup() {
 }
 
 void loop() {
+  tmp = readTMP();
   LoRaNow.loop();
+}
+
+double readTMP()
+{
+  int RawValue = analogRead(tmpADPin);
+  //Serial.println(RawValue);
+  double Voltage = (RawValue / 2048.0) * 3300; // 5000 to get millivots.
+  double tempC = Voltage * 0.1;
+  //Serial.println(tempC);
+  return tempC;
 }
 
 void onMessage(uint8_t *buffer, size_t size)
@@ -67,5 +78,7 @@ void onSleep()
   LoRaNow.print("LoRaNow Node Message ");
   //Serial.println("LoRaNow Message sended");
   LoRaNow.print(millis());
+  LoRaNow.print("-");
+  LoRaNow.print(tmp);
   LoRaNow.send();
 }
