@@ -1,7 +1,7 @@
 /*
   LoRa Node With GPS/BD and TMP
   MCU：ESP32-S
-  Lora: ai-tinker RA-02 sx1278 470 
+  Lora: ai-tinker RA-02 sx1278 470
   Tempture Sensor:LM35
   Beidou:ai-thinker BG-01 based by gk9501 soc
   created 2020.8.25
@@ -81,37 +81,37 @@ void onMessage(uint8_t *buffer, size_t size)
 void onSleep()
 {
   Serial.println("Sleep");
-  //readBD(); 
+  //readBD();
   //tmp = readTMP();
-  
+
   Serial.println("Lora Send Message");
   delay(4000); // "kind of a sleep"
 
   //LoRaNow.print(message);
   //LoRaNow.print("message");
 
-    LoRaNow.print(fix.status);  
+    LoRaNow.print(fix.status);
     LoRaNow.print(",");
     LoRaNow.print(fix.longitude());
     LoRaNow.print(",");
-    LoRaNow.print(fix.latitude());    
+    LoRaNow.print(fix.latitude());
     LoRaNow.print(",");
     LoRaNow.print(fix.altitude());
     LoRaNow.print(",");
     LoRaNow.print(fix.speed_kph());
     LoRaNow.print(",");
     LoRaNow.print(fix.satellites);
-    LoRaNow.print(","); 
+    LoRaNow.print(",");
     LoRaNow.print(fix.dateTime.year);
-    LoRaNow.print("-"); 
+    LoRaNow.print("-");
     LoRaNow.print(fix.dateTime.month);
-    LoRaNow.print("-"); 
+    LoRaNow.print("-");
     LoRaNow.print(fix.dateTime.date);
-    LoRaNow.print("~"); 
+    LoRaNow.print("~");
     LoRaNow.print(fix.dateTime.hours);
-    LoRaNow.print(":"); 
+    LoRaNow.print(":");
     LoRaNow.print(fix.dateTime.minutes);
-    LoRaNow.print(":"); 
+    LoRaNow.print(":");
     LoRaNow.print(fix.dateTime.seconds);
     LoRaNow.print(",");
     LoRaNow.print(tmp);
@@ -122,9 +122,13 @@ double readTMP()
 {
   int RawValue = analogRead(tmpADPin);
   //Serial.println(RawValue);
-  double Voltage = (RawValue / 2048.0) * 3300; // 5000 to get millivots.
-  double tempC = Voltage * 0.1;
-  //Serial.println(tempC);
+  float voltageLM35DZ = RawValue * (3.3 / 4096.0);
+  Serial.println( voltageLM35DZ*100);
+  //lcd.i2cprint( "TLM35="+String(round(voltageLM35DZ*100)) +"'C" );
+  //double Voltage = (RawValue / 4096.0) * 3300; // 5000 to get millivots.
+  //double tempC = Voltage * 0.1;
+  double tempC = round(voltageLM35DZ*100)
+  Serial.println(tempC);
   return tempC;
 }
 
@@ -132,31 +136,31 @@ void readBD(){
   if (gps.available( SerialBD )) {
     fix = gps.read();
     Serial.println("--GPS info--");
-//    //0 STATUS_NONE, 1 STATUS_EST, 2 STATUS_TIME_ONLY, 3 STATUS_STD or 4 STATUS_DGPS  
+//    //0 STATUS_NONE, 1 STATUS_EST, 2 STATUS_TIME_ONLY, 3 STATUS_STD or 4 STATUS_DGPS
     Serial.print("status:");
-    Serial.println(fix.status);  
+    Serial.println(fix.status);
     Serial.print("longitude:");
     Serial.println(fix.longitude());
     Serial.print("latitude:");
-    Serial.println(fix.latitude());    
+    Serial.println(fix.latitude());
     Serial.print("altitude:");
     Serial.println(fix.altitude());
     Serial.print("speed:");
     Serial.println(fix.speed_kph());
     Serial.print("satellites count:");
     Serial.println(fix.satellites);
-    Serial.print("UTC "); 
+    Serial.print("UTC ");
     Serial.print(fix.dateTime.year);
-    Serial.print("-"); 
+    Serial.print("-");
     Serial.print(fix.dateTime.month);
-    Serial.print("-"); 
+    Serial.print("-");
     Serial.print(fix.dateTime.date);
-    Serial.print(" "); 
+    Serial.print(" ");
     Serial.print(fix.dateTime.hours);
-    Serial.print(":"); 
+    Serial.print(":");
     Serial.print(fix.dateTime.minutes);
-    Serial.print(":"); 
+    Serial.print(":");
     Serial.println(fix.dateTime.seconds);
-    
+
   }
  }
