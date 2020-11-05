@@ -55,8 +55,8 @@ void loop() {
 double readTMP()
 {
   int RawValue = analogRead(tmpADPin);
-  double Vout = (RawValue / 4096.0) * 3270; // 单位mV.
-  double tempC = (Vout - 0.4)/19.5;
+  double Vout = (RawValue / 4096.0) * 3300; // 单位mV.
+  double tempC = (Vout - 400)/19.5;
   //Serial.println(tempC);
   return tempC;
 }
