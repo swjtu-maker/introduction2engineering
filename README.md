@@ -1,2 +1,3 @@
-# introduction2engineering
-Codes for introduction 2 engineering
+# 西南交通大学工程概论课程资料集
+工程概论是西南交通大学信息科学与技术学院通信工程专业的必修课，主讲工程设计。
+
