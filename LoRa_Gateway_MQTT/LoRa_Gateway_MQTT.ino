@@ -16,22 +16,22 @@
 #include <PubSubClient.h>
 
 //vspi
-#define MISO 19
-#define MOSI 23
-#define SCK 18
-#define SS 5
+//#define MISO 19
+//#define MOSI 23
+//#define SCK 18
+//#define SS 5
 
-//hspi
-//#define SCK 14
-//#define MISO 12
-//#define MOSI 13
-//#define SS 15
+//hspi,only for ESP-32-Lora-Shield-Ra02
+#define SCK 14
+#define MISO 12
+#define MOSI 13
+#define SS 15
 
 #define DIO0 4
 
-const char *ssid = "wangguan";
-const char *password = "20010901";
-const char* mqtt_server = "broker.hivemq.com";
+const char *ssid = "codes2things";
+const char *password = "swjtumaker";
+const char *mqtt_server = "broker.hivemq.com";
 
 WebServer server(80);
 WiFiClient espClient;
@@ -100,7 +100,7 @@ void setup(void)
   Serial.begin(115200);
 
   WiFi.mode(WIFI_STA);
-  if (ssid != "")
+  //if (ssid != "")
     WiFi.begin(ssid, password);
   WiFi.begin();
   Serial.println("");
@@ -171,7 +171,7 @@ void onMessage(uint8_t *buffer, size_t size)
   Serial.println();
   
    //此处通过mqtt发送信息。
-   snprintf (msg, MSG_BUFFER_SIZE, "#%ld#%s", count,buffer);
+   snprintf (msg, MSG_BUFFER_SIZE, "#%d#%s", count,buffer);
    Serial.print("Publish message: ");
    Serial.println(msg);
    mqttclient.publish("C2TLOutTopic", msg);
